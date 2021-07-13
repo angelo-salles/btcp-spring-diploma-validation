@@ -8,13 +8,13 @@ import java.util.List;
 
 @Repository
 public class StudentRepository {
-  private static List<Student> students = new ArrayList<>();
+  private static Student student;
 
-  public List<Student> findAll() {
-    return students;
+  public Student findAll() {
+    return student;
   }
 
-  public void save(Student student) {
-    students.add(student);
+  public void save(Student std) {
+    student = std;
   }
 }
