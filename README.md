@@ -51,3 +51,15 @@ anteriormente e refatorado para atender os requisitos deste exercício prático.
         }
     }
     ````
+  
+## Prática de Teste Unitário Sem Mock
+
+Solução dos exercícios adaptados para a minha implementação da api de diplomas, onde
+os testes unitários estão na pasta de ````/test````, no arquivo com o mesmo nome que
+foi pedido no exercício (```CertificateServiceImplTest```).
+
+Para as seguintes classes, que seriam equivalente as pedidas no exercícios, a cobertura
+foi de 100%:
+  - ```/utils/CalculateAverage.java```
+  - ```/utils/StudentSituation.java```
+  - ```/service/StudentService.java```
