@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.List;
 
 @ControllerAdvice
-public class StudentExceptionHandler {
+public class ApiControllerExceptionAdvice {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<?> argumentNotValidHandler(MethodArgumentNotValidException e) {
