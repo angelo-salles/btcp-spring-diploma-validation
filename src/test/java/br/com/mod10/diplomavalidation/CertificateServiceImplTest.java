@@ -2,6 +2,7 @@ package br.com.mod10.diplomavalidation;
 
 import br.com.mod10.diplomavalidation.form.SubjectForm;
 import br.com.mod10.diplomavalidation.utils.CalculateAverage;
+import br.com.mod10.diplomavalidation.utils.StudentSituation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,5 +33,33 @@ public class CertificateServiceImplTest {
     double responseAverage = CalculateAverage.calcAverage(this.subjectsMock);
 
     Assertions.assertEquals(expectedAverage, responseAverage);
+  }
+
+  @Test
+  public void shouldReturnApprovedWithCongratulations() {
+    String message = StudentSituation.status(9.7);
+
+    Assertions.assertTrue(message.contains("Parabéns"));
+  }
+
+  @Test
+  public void shouldReturnApproved() {
+    String message = StudentSituation.status(6.8);
+
+    Assertions.assertTrue(message.contains("aprovado"));
+  }
+
+  @Test
+  public void shouldReturnRecovery() {
+    String message = StudentSituation.status(4.7);
+
+    Assertions.assertTrue(message.contains("recuperação"));
+  }
+
+  @Test
+  public void shouldReturnReproved() {
+    String message = StudentSituation.status(2.0);
+
+    Assertions.assertTrue(message.contains("reprovado"));
   }
 }
