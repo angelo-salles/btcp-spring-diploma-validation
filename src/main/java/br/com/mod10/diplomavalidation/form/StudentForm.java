@@ -8,7 +8,7 @@ import java.util.List;
 
 public class StudentForm {
   @NotNull(message = "Name must not be null")
-  @Size(min = 8, max = 50, message = "Name must have at least 8 character and 50 at maximum")
+  @Size(min = 1, max = 50, message = "Name must have at least 8 character and 50 at maximum")
   @Pattern(regexp = "^[a-zA-Z]+$")
   private String name;
 
