@@ -1,6 +1,12 @@
 package br.com.mod10.diplomavalidation;
 
+import br.com.mod10.diplomavalidation.converter.StudentConverter;
+import br.com.mod10.diplomavalidation.dto.DegreeDTO;
+import br.com.mod10.diplomavalidation.dto.StudentDTO;
+import br.com.mod10.diplomavalidation.entity.Student;
+import br.com.mod10.diplomavalidation.form.StudentForm;
 import br.com.mod10.diplomavalidation.form.SubjectForm;
+import br.com.mod10.diplomavalidation.service.StudentService;
 import br.com.mod10.diplomavalidation.utils.CalculateAverage;
 import br.com.mod10.diplomavalidation.utils.StudentSituation;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +21,9 @@ import java.util.List;
 @SpringBootTest
 public class CertificateServiceImplTest {
 
+  private StudentService studentService;
   private List<SubjectForm> subjectsMock;
+  private StudentForm studentMock;
 
   @BeforeEach
   public void init() {
@@ -24,6 +32,8 @@ public class CertificateServiceImplTest {
     SubjectForm s3 = new SubjectForm("Mock 3", 10);
 
     this.subjectsMock = new ArrayList<>(Arrays.asList(new SubjectForm[]{s1, s2, s3}));
+    this.studentMock = new StudentForm("Mock", this.subjectsMock);
+    this.studentService = new StudentService();
   }
 
   @Test
@@ -61,5 +71,19 @@ public class CertificateServiceImplTest {
     String message = StudentSituation.status(2.0);
 
     Assertions.assertTrue(message.contains("reprovado"));
+  }
+
+  @Test
+  public void shoulReturnAnApprovedObject() {
+    String message = "Você foi aprovado! Sua média foi de: 7,7";
+    double average = 7.7;
+
+    DegreeDTO responseDegree = studentService.degree(this.studentMock);
+
+    Assertions.assertTrue(message.equalsIgnoreCase(responseDegree.getMessage()));
+    Assertions.assertTrue(average == responseDegree.getAverage());
+    Assertions.assertTrue(this.studentMock.getName().equalsIgnoreCase(responseDegree.getStudent().getName()));
+    Assertions.assertTrue(this.subjectsMock.get(0).getSubject().equalsIgnoreCase(responseDegree.getStudent().getSubjects().get(0).getSubject()));
+    Assertions.assertTrue(this.subjectsMock.get(0).getNote() == responseDegree.getStudent().getSubjects().get(0).getNote());
   }
 }
