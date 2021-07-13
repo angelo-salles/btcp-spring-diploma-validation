@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -42,5 +43,13 @@ public class StudentService {
             Double.valueOf(df.format(average)),
             studentResponse
     );
+  }
+
+  public void save(StudentForm studentForm) {
+    this.studentRepository.save(StudentConverter.studentFormToEntity(studentForm));
+  }
+
+  public List<StudentDTO> findAll() {
+    return StudentConverter.studentEntityToDTO(this.studentRepository.findAll());
   }
 }

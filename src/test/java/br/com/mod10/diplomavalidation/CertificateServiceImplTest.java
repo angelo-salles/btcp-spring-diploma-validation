@@ -2,16 +2,16 @@ package br.com.mod10.diplomavalidation;
 
 import br.com.mod10.diplomavalidation.converter.StudentConverter;
 import br.com.mod10.diplomavalidation.dto.DegreeDTO;
-import br.com.mod10.diplomavalidation.dto.StudentDTO;
-import br.com.mod10.diplomavalidation.entity.Student;
 import br.com.mod10.diplomavalidation.form.StudentForm;
 import br.com.mod10.diplomavalidation.form.SubjectForm;
+import br.com.mod10.diplomavalidation.repository.StudentRepository;
 import br.com.mod10.diplomavalidation.service.StudentService;
 import br.com.mod10.diplomavalidation.utils.CalculateAverage;
 import br.com.mod10.diplomavalidation.utils.StudentSituation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ import java.util.List;
 @SpringBootTest
 public class CertificateServiceImplTest {
 
+  private StudentRepository studentRepository;
   private StudentService studentService;
   private List<SubjectForm> subjectsMock;
   private StudentForm studentMock;
@@ -33,7 +34,8 @@ public class CertificateServiceImplTest {
 
     this.subjectsMock = new ArrayList<>(Arrays.asList(new SubjectForm[]{s1, s2, s3}));
     this.studentMock = new StudentForm("Mock", this.subjectsMock);
-    this.studentService = new StudentService();
+    this.studentRepository = Mockito.mock(StudentRepository.class);
+    this.studentService = new StudentService(this.studentRepository);
   }
 
   @Test
@@ -85,5 +87,11 @@ public class CertificateServiceImplTest {
     Assertions.assertTrue(this.studentMock.getName().equalsIgnoreCase(responseDegree.getStudent().getName()));
     Assertions.assertTrue(this.subjectsMock.get(0).getSubject().equalsIgnoreCase(responseDegree.getStudent().getSubjects().get(0).getSubject()));
     Assertions.assertTrue(this.subjectsMock.get(0).getNote() == responseDegree.getStudent().getSubjects().get(0).getNote());
+  }
+
+  @Test
+  public void shouldCallFindAllMethodFromRepository() {
+    this.studentService.findAll();
+    Mockito.verify(this.studentRepository).findAll();
   }
 }
