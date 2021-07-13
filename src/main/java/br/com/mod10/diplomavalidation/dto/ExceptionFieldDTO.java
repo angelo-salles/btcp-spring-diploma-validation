@@ -1,15 +1,18 @@
 package br.com.mod10.diplomavalidation.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 
 public class ExceptionFieldDTO {
-  private Map<String, String> errors;
+  @JsonProperty("ValidationError")
+  private Map<String, String> validationErrors;
 
-  public ExceptionFieldDTO(Map<String, String> errors) {
-    this.errors = errors;
+  public ExceptionFieldDTO(Map<String, String> validationErrors) {
+    this.validationErrors = validationErrors;
   }
 
-  public Map<String, String> getErrors() {
-    return errors;
+  public Map<String, String> getValidationErrors() {
+    return validationErrors;
   }
 }
