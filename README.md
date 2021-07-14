@@ -140,7 +140,7 @@ anteriormente e refatorado para atender os requisitos deste exercício prático.
     }
   ```
   
-## Prática de Teste Unitário Sem Mock
+## Prática de Teste Unitário
 
 Solução dos exercícios adaptados para a minha implementação da api de diplomas, onde
 os testes unitários estão na pasta de ````/test````.
