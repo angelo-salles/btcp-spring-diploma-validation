@@ -47,9 +47,9 @@ public class StudentService {
     );
   }
 
-  public StudentDTO save(StudentForm studentForm) {
-    Student student = this.studentRepository.save(StudentConverter.studentFormToEntity(studentForm));
-    return StudentConverter.studentEntityToDTO(student);
+  public StudentDTO save(Student student) {
+    Student studentResponse = this.studentRepository.save(student);
+    return StudentConverter.studentEntityToDTO(studentResponse);
   }
 
   public List<StudentDTO> findAll() {

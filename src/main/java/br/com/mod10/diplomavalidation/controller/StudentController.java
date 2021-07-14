@@ -1,5 +1,6 @@
 package br.com.mod10.diplomavalidation.controller;
 
+import br.com.mod10.diplomavalidation.converter.StudentConverter;
 import br.com.mod10.diplomavalidation.dto.StudentDTO;
 import br.com.mod10.diplomavalidation.form.StudentForm;
 import br.com.mod10.diplomavalidation.service.StudentService;
@@ -33,7 +34,7 @@ public class StudentController {
 
   @PostMapping
   public ResponseEntity<?> saveStudent(@RequestBody @Valid StudentForm studentForm, UriComponentsBuilder uriComponentsBuilder) {
-    StudentDTO student = this.studentService.save(studentForm);
+    StudentDTO student = this.studentService.save(StudentConverter.studentFormToEntity(studentForm));
     URI uri = uriComponentsBuilder.path("/api/aula1/student/{id}").buildAndExpand(student.getId()).toUri();
     return ResponseEntity.created(uri).body(student);
   }
