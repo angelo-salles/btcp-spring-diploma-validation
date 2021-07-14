@@ -16,7 +16,6 @@ import java.util.List;
 @SpringBootTest
 public class CalculateAverageTest {
   private List<SubjectDTO> subjectsMock;
-  private StudentDTO studentMock;
 
   @BeforeEach
   public void init() {
@@ -25,7 +24,6 @@ public class CalculateAverageTest {
     SubjectDTO s3 = new SubjectDTO(3l,"Mock 3", 10);
 
     this.subjectsMock = new ArrayList<>(Arrays.asList(new SubjectDTO[]{s1, s2, s3}));
-    this.studentMock = new StudentDTO(1l, "Mock", this.subjectsMock);
   }
 
   @Test
