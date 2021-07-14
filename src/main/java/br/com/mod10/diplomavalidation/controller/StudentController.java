@@ -5,7 +5,6 @@ import br.com.mod10.diplomavalidation.dto.StudentDTO;
 import br.com.mod10.diplomavalidation.form.StudentForm;
 import br.com.mod10.diplomavalidation.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -29,7 +28,7 @@ public class StudentController {
 
   @PostMapping("/analyzeNotes/{id}")
   public ResponseEntity<?> analyzeNotes(@PathVariable long id) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(studentService.degree(id));
+    return ResponseEntity.ok().body(studentService.degree(id));
   }
 
   @PostMapping
