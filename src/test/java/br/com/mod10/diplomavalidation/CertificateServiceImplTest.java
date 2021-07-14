@@ -2,12 +2,17 @@ package br.com.mod10.diplomavalidation;
 
 import br.com.mod10.diplomavalidation.converter.StudentConverter;
 import br.com.mod10.diplomavalidation.dto.DegreeDTO;
+import br.com.mod10.diplomavalidation.dto.StudentDTO;
+import br.com.mod10.diplomavalidation.dto.SubjectDTO;
+import br.com.mod10.diplomavalidation.entity.Student;
+import br.com.mod10.diplomavalidation.entity.Subject;
+import br.com.mod10.diplomavalidation.exception.handler.StudentNotExistsException;
 import br.com.mod10.diplomavalidation.form.StudentForm;
 import br.com.mod10.diplomavalidation.form.SubjectForm;
 import br.com.mod10.diplomavalidation.repository.StudentRepository;
 import br.com.mod10.diplomavalidation.service.StudentService;
-import br.com.mod10.diplomavalidation.utils.CalculateAverage;
-import br.com.mod10.diplomavalidation.utils.StudentSituation;
+
+import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,81 +22,84 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class CertificateServiceImplTest {
 
   private StudentRepository studentRepository;
   private StudentService studentService;
-  private List<SubjectForm> subjectsMock;
-  private StudentForm studentMock;
+  private List<SubjectDTO> subjectsMock;
+  private StudentDTO studentMock;
 
   @BeforeEach
   public void init() {
-    SubjectForm s1 = new SubjectForm("Mock 1", 5);
-    SubjectForm s2 = new SubjectForm("Mock 2", 8);
-    SubjectForm s3 = new SubjectForm("Mock 3", 10);
+    SubjectDTO s1 = new SubjectDTO(1l,"Mock I", 8);
 
-    this.subjectsMock = new ArrayList<>(Arrays.asList(new SubjectForm[]{s1, s2, s3}));
-    this.studentMock = new StudentForm("Mock", this.subjectsMock);
+    this.subjectsMock = new ArrayList<>(Arrays.asList(new SubjectDTO[]{s1}));
+    this.studentMock = new StudentDTO(1l, "Mock", this.subjectsMock);
     this.studentRepository = Mockito.mock(StudentRepository.class);
     this.studentService = new StudentService(this.studentRepository);
   }
 
   @Test
-  public void shouldReturnTheAverageOfNotes() {
-    double expectedAverage = (double) 23 / 3;
-
-    double responseAverage = CalculateAverage.calcAverage(this.subjectsMock);
-
-    Assertions.assertEquals(expectedAverage, responseAverage);
-  }
-
-  @Test
-  public void shouldReturnApprovedWithCongratulations() {
-    String message = StudentSituation.status(9.7);
-
-    Assertions.assertTrue(message.contains("Parabéns"));
-  }
-
-  @Test
-  public void shouldReturnApproved() {
-    String message = StudentSituation.status(6.8);
-
-    Assertions.assertTrue(message.contains("aprovado"));
-  }
-
-  @Test
-  public void shouldReturnRecovery() {
-    String message = StudentSituation.status(4.7);
-
-    Assertions.assertTrue(message.contains("recuperação"));
-  }
-
-  @Test
-  public void shouldReturnReproved() {
-    String message = StudentSituation.status(2.0);
-
-    Assertions.assertTrue(message.contains("reprovado"));
-  }
-
-  @Test
   public void shoulReturnAnApprovedObject() {
-    String message = "Você foi aprovado! Sua média foi de: 7,7";
-    double average = 7.7;
+    long id = 1l;
 
-    DegreeDTO responseDegree = studentService.degree(this.studentMock);
+    Subject subject = new Subject("Mock I", 8);
+    List<Subject> subjects = new ArrayList<>(Arrays.asList(new Subject[]{subject}));
+    Optional<Student> student = Optional.of(new Student("Mock", subjects));
+    Mockito.when(this.studentRepository.findById(id)).thenReturn(student);
 
-    Assertions.assertTrue(message.equalsIgnoreCase(responseDegree.getMessage()));
-    Assertions.assertTrue(average == responseDegree.getAverage());
-    Assertions.assertTrue(this.studentMock.getName().equalsIgnoreCase(responseDegree.getStudent().getName()));
-    Assertions.assertTrue(this.subjectsMock.get(0).getSubject().equalsIgnoreCase(responseDegree.getStudent().getSubjects().get(0).getSubject()));
-    Assertions.assertTrue(this.subjectsMock.get(0).getNote() == responseDegree.getStudent().getSubjects().get(0).getNote());
+    DegreeDTO expected = new DegreeDTO(
+            "Você foi aprovado! Sua média foi de: 8,0",
+            8.0,
+            this.studentMock
+    );
+
+    DegreeDTO responseDegree = this.studentService.degree(id);
+
+    assertThat(responseDegree).usingRecursiveComparison().isEqualTo(expected);
   }
 
   @Test
   public void shouldCallFindAllMethodFromRepository() {
     this.studentService.findAll();
     Mockito.verify(this.studentRepository).findAll();
+  }
+
+  @Test
+  public void shouldCallFindByIdMethodFromRepository() {
+    long id = 1l;
+    Subject subject = new Subject("Mock I", 8);
+    List<Subject> subjects = new ArrayList<>(Arrays.asList(new Subject[]{subject}));
+    Optional<Student> student = Optional.of(new Student("Mock", subjects));
+    Mockito.when(this.studentRepository.findById(id)).thenReturn(student);
+    this.studentService.findById(id);
+    Mockito.verify(this.studentRepository).findById(id);
+  }
+
+  @Test
+  public void shouldReturnStudentNotExistsException() {
+    long id = 1l;
+
+    StudentNotExistsException exception = Assertions.assertThrows(
+            StudentNotExistsException.class,
+            () -> this.studentService.findById(id)
+    );
+
+    Assertions.assertTrue(exception.getMessage().contains("não cadastrado"));
+  }
+
+  @Test
+  public void shouldCallSaveMethodFromRepository() {
+    Subject subject = new Subject("Mock I", 8);
+    List<Subject> subjects = new ArrayList<>(Arrays.asList(new Subject[]{subject}));
+    Student student = new Student("Mock", subjects);
+
+    Mockito.when(this.studentRepository.save(student)).thenReturn(student);
+
+    this.studentService.save(student);
+    Mockito.verify(this.studentRepository).save(student);
   }
 }
