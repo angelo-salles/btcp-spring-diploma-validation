@@ -1,4 +1,4 @@
-package br.com.mod10.diplomavalidation;
+package br.com.mod10.diplomavalidation.service;
 
 import br.com.mod10.diplomavalidation.converter.StudentConverter;
 import br.com.mod10.diplomavalidation.dto.DegreeDTO;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-public class CertificateServiceImplTest {
+public class StudentServiceTest {
 
   private StudentRepository studentRepository;
   private StudentService studentService;
