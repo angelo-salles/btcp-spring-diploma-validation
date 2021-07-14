@@ -29,32 +29,32 @@ public class CertificateServiceImplTest {
 
   private StudentRepository studentRepository;
   private StudentService studentService;
-  private List<SubjectDTO> subjectsMock;
-  private StudentDTO studentMock;
+  private List<Subject> subjectsMock;
+  private Student studentMock;
+  private Optional<Student> optionalStudentMock;
 
   @BeforeEach
   public void init() {
-    SubjectDTO s1 = new SubjectDTO(1l,"Mock I", 8);
+    Subject s1 = new Subject("Mock I", 8);
 
-    this.subjectsMock = new ArrayList<>(Arrays.asList(new SubjectDTO[]{s1}));
-    this.studentMock = new StudentDTO(1l, "Mock", this.subjectsMock);
+    this.subjectsMock = new ArrayList<>(Arrays.asList(new Subject[]{s1}));
+    this.studentMock = new Student("Mock", this.subjectsMock);
+    this.optionalStudentMock = Optional.of(this.studentMock);
+
     this.studentRepository = Mockito.mock(StudentRepository.class);
     this.studentService = new StudentService(this.studentRepository);
   }
 
   @Test
-  public void shoulReturnAnApprovedObject() {
+  public void shoulReturnDegreeDTO() {
     long id = 1l;
 
-    Subject subject = new Subject("Mock I", 8);
-    List<Subject> subjects = new ArrayList<>(Arrays.asList(new Subject[]{subject}));
-    Optional<Student> student = Optional.of(new Student("Mock", subjects));
-    Mockito.when(this.studentRepository.findById(id)).thenReturn(student);
+    Mockito.when(this.studentRepository.findById(id)).thenReturn(this.optionalStudentMock);
 
     DegreeDTO expected = new DegreeDTO(
             "Você foi aprovado! Sua média foi de: 8,0",
             8.0,
-            this.studentMock
+            StudentConverter.studentEntityToDTO(this.studentMock)
     );
 
     DegreeDTO responseDegree = this.studentService.degree(id);
@@ -71,10 +71,9 @@ public class CertificateServiceImplTest {
   @Test
   public void shouldCallFindByIdMethodFromRepository() {
     long id = 1l;
-    Subject subject = new Subject("Mock I", 8);
-    List<Subject> subjects = new ArrayList<>(Arrays.asList(new Subject[]{subject}));
-    Optional<Student> student = Optional.of(new Student("Mock", subjects));
-    Mockito.when(this.studentRepository.findById(id)).thenReturn(student);
+
+    Mockito.when(this.studentRepository.findById(id)).thenReturn(this.optionalStudentMock);
+
     this.studentService.findById(id);
     Mockito.verify(this.studentRepository).findById(id);
   }
@@ -93,13 +92,10 @@ public class CertificateServiceImplTest {
 
   @Test
   public void shouldCallSaveMethodFromRepository() {
-    Subject subject = new Subject("Mock I", 8);
-    List<Subject> subjects = new ArrayList<>(Arrays.asList(new Subject[]{subject}));
-    Student student = new Student("Mock", subjects);
 
-    Mockito.when(this.studentRepository.save(student)).thenReturn(student);
+    Mockito.when(this.studentRepository.save(this.studentMock)).thenReturn(this.studentMock);
 
-    this.studentService.save(student);
-    Mockito.verify(this.studentRepository).save(student);
+    this.studentService.save(this.studentMock);
+    Mockito.verify(this.studentRepository).save(this.studentMock);
   }
 }
