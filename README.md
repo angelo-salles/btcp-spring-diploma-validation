@@ -150,3 +150,11 @@ feitos os testes unitários:
   - ```/utils/CalculateAverage.java```
   - ```/utils/StudentSituation.java```
   - ```/service/StudentService.java```
+
+# Aula 2 - Testing Automatizado com JUnit
+
+## Prática de Teste de Integração
+
+Os testes de integração foram realizados nos Repositories e no Controller, suas
+classes de testes se encontram respectivamente no diretório ````test````, nas 
+pastas ````/repository```` e ```/controller``` respectivamente.
