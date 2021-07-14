@@ -1,7 +1,6 @@
 package br.com.mod10.diplomavalidation.utils;
 
 import br.com.mod10.diplomavalidation.dto.SubjectDTO;
-import br.com.mod10.diplomavalidation.entity.Subject;
 
 import java.util.List;
 
