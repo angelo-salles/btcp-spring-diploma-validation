@@ -2,15 +2,10 @@ package br.com.mod10.diplomavalidation.service;
 
 import br.com.mod10.diplomavalidation.converter.StudentConverter;
 import br.com.mod10.diplomavalidation.dto.DegreeDTO;
-import br.com.mod10.diplomavalidation.dto.StudentDTO;
-import br.com.mod10.diplomavalidation.dto.SubjectDTO;
 import br.com.mod10.diplomavalidation.entity.Student;
 import br.com.mod10.diplomavalidation.entity.Subject;
 import br.com.mod10.diplomavalidation.exception.handler.StudentNotExistsException;
-import br.com.mod10.diplomavalidation.form.StudentForm;
-import br.com.mod10.diplomavalidation.form.SubjectForm;
 import br.com.mod10.diplomavalidation.repository.StudentRepository;
-import br.com.mod10.diplomavalidation.service.StudentService;
 
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Assertions;
