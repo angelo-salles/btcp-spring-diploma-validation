@@ -1,20 +1,24 @@
 package br.com.mod10.diplomavalidation.service;
 
+import br.com.mod10.diplomavalidation.controller.StudentController;
 import br.com.mod10.diplomavalidation.converter.StudentConverter;
 import br.com.mod10.diplomavalidation.dto.DegreeDTO;
 import br.com.mod10.diplomavalidation.dto.StudentDTO;
 import br.com.mod10.diplomavalidation.entity.Student;
+import br.com.mod10.diplomavalidation.exception.handler.StudentNotExistsException;
 import br.com.mod10.diplomavalidation.form.StudentForm;
 import br.com.mod10.diplomavalidation.repository.StudentRepository;
 import br.com.mod10.diplomavalidation.utils.CalculateAverage;
 import br.com.mod10.diplomavalidation.utils.StudentSituation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -45,11 +49,23 @@ public class StudentService {
     );
   }
 
-  public void save(StudentForm studentForm) {
-    this.studentRepository.save(StudentConverter.studentFormToEntity(studentForm));
+  public StudentDTO save(StudentForm studentForm) {
+    Student student = this.studentRepository.save(StudentConverter.studentFormToEntity(studentForm));
+    return StudentConverter.studentEntityToDTO(student);
   }
 
   public List<StudentDTO> findAll() {
-    return StudentConverter.studentEntityToDTO(this.studentRepository.findAll());
+    List<Student> students = Streamable.of(this.studentRepository.findAll()).toList();
+    return StudentConverter.studentEntityToDTO(students);
+  }
+
+  public StudentDTO findById(long id) {
+    Optional<Student> student = this.studentRepository.findById(id);
+
+    if(student.isPresent()) {
+      return StudentConverter.studentEntityToDTO(student.get());
+    }
+
+    throw new StudentNotExistsException("Estudante não cadastrado");
   }
 }
