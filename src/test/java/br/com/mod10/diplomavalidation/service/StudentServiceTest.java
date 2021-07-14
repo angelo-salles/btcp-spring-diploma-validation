@@ -41,6 +41,13 @@ public class StudentServiceTest {
   }
 
   @Test
+  public void shoulReturnAnInstanceOfStudentService() {
+    StudentService service = new StudentService();
+
+    Assertions.assertNotNull(service);
+  }
+
+  @Test
   public void shoulReturnDegreeDTO() {
     long id = 1l;
 
