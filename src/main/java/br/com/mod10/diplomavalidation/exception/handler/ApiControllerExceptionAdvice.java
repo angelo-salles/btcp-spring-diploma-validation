@@ -30,4 +30,9 @@ public class ApiControllerExceptionAdvice {
   public ResponseEntity<?> httpMessageNotReadableHandler(HttpMessageNotReadableException e) {
     return ResponseEntity.badRequest().body(new ExceptionDTO(e.getMessage()));
   }
+
+  @ExceptionHandler(StudentNotExistsException.class)
+  public ResponseEntity<?> studentNotExistsHandler(StudentNotExistsException e) {
+    return ResponseEntity.badRequest().body(new ExceptionDTO(e.getMessage()));
+  }
 }
