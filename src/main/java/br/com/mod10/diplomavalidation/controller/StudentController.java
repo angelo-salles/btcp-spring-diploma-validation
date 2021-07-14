@@ -26,9 +26,9 @@ public class StudentController {
     this.studentService = studentService;
   }
 
-  @PostMapping("/analyzeNotes")
-  public ResponseEntity<?> analyzeNotes(@RequestBody @Valid StudentForm studentForm) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(studentService.degree(studentForm));
+  @PostMapping("/analyzeNotes/{id}")
+  public ResponseEntity<?> analyzeNotes(@PathVariable long id) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(studentService.degree(id));
   }
 
   @PostMapping

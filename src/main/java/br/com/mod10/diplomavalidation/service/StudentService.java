@@ -35,17 +35,15 @@ public class StudentService {
     this.studentRepository = studentRepository;
   }
 
-  public DegreeDTO degree(StudentForm studentForm) {
-    double average = CalculateAverage.calcAverage(studentForm.getSubjects());
+  public DegreeDTO degree(long id) {
+    StudentDTO student = findById(id);
+    double average = CalculateAverage.calcAverage(student.getSubjects());
     String message = StudentSituation.status(average);
-
-    Student student = StudentConverter.studentFormToEntity(studentForm);
-    StudentDTO studentResponse = StudentConverter.studentEntityToDTO(student);
 
     return new DegreeDTO(
             message,
             Double.valueOf(df.format(average)),
-            studentResponse
+            student
     );
   }
 
