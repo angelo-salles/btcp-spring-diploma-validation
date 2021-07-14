@@ -1,9 +1,9 @@
 package br.com.mod10.diplomavalidation.repository;
 
-import br.com.mod10.diplomavalidation.entity.Student;
+import br.com.mod10.diplomavalidation.entity.Subject;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudentRepository extends CrudRepository<Student, Long> {
+public interface SubjectRepository extends CrudRepository<Subject, Long> {
 }
