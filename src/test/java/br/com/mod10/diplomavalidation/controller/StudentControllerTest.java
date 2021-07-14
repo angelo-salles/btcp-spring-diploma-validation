@@ -99,7 +99,7 @@ public class StudentControllerTest {
   @Test
   public void shouldReturnStudentNotExistsExceptionForGetStudentById() throws Exception {
     mock.perform(get("/api/aula1/student/{id}", 10l))
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isNotFound())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$").isNotEmpty())
             .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof StudentNotExistsException))
@@ -124,7 +124,7 @@ public class StudentControllerTest {
   @Test
   public void shouldReturnStudentNotExistsExceptionWhenStudentNotExists() throws Exception {
     mock.perform(post("/api/aula1/analyzeNotes/{id}", 10l))
-        .andExpect(status().isBadRequest())
+        .andExpect(status().isNotFound())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof StudentNotExistsException))
         .andExpect(result -> Assertions.assertTrue(result.getResolvedException().getMessage().contains("não cadastrado")));

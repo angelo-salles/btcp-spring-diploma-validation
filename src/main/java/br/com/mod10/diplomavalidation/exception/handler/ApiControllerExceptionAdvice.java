@@ -3,6 +3,7 @@ package br.com.mod10.diplomavalidation.exception.handler;
 import br.com.mod10.diplomavalidation.dto.ExceptionDTO;
 import br.com.mod10.diplomavalidation.dto.ExceptionFieldDTO;
 import br.com.mod10.diplomavalidation.utils.exception.FieldErrors;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,6 @@ public class ApiControllerExceptionAdvice {
 
   @ExceptionHandler(StudentNotExistsException.class)
   public ResponseEntity<?> studentNotExistsHandler(StudentNotExistsException e) {
-    return ResponseEntity.badRequest().body(new ExceptionDTO(e.getMessage()));
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionDTO(e.getMessage()));
   }
 }
