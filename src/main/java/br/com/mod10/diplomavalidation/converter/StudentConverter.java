@@ -14,10 +14,6 @@ public class StudentConverter {
     ModelMapper mapper = new ModelMapper();
     Student student = mapper.map(studentForm, Student.class);
     return student;
-//    return new Student(
-//            studentForm.getName(),
-//            SubjectConverter.subjectFormToEntity(studentForm.getSubjects())
-//    );
   }
 
   public static List<Student> studentFormToEntity(List<StudentForm> studentForms) {
@@ -34,11 +30,6 @@ public class StudentConverter {
     ModelMapper mapper = new ModelMapper();
     StudentDTO studentDTO = mapper.map(student, StudentDTO.class);
     return studentDTO;
-//    return new StudentDTO(
-//            student.getId(),
-//            student.getName(),
-//            SubjectConverter.subjectEntityToDTO(student.getSubjects())
-//    );
   }
 
   public static List<StudentDTO> studentEntityToDTO(List<Student> students) {
