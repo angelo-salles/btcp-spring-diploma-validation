@@ -22,7 +22,7 @@ public class ApiControllerExceptionAdvice {
     BindingResult result = e.getBindingResult();
 
     List<FieldError> fieldErrors = result.getFieldErrors();
-    ExceptionFieldDTO exceptions = FieldErrors.processFieldErrors(fieldErrors);
+    ExceptionFieldDTO exceptions = new ExceptionFieldDTO(FieldErrors.processFieldErrors(fieldErrors));
 
     return ResponseEntity.badRequest().body(exceptions);
   }
