@@ -4,16 +4,20 @@ import br.com.mod10.diplomavalidation.dto.StudentDTO;
 import br.com.mod10.diplomavalidation.entity.Student;
 import br.com.mod10.diplomavalidation.entity.Subject;
 import br.com.mod10.diplomavalidation.form.StudentForm;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentConverter {
   public static Student studentFormToEntity(StudentForm studentForm) {
-    return new Student(
-            studentForm.getName(),
-            SubjectConverter.subjectFormToEntity(studentForm.getSubjects())
-    );
+    ModelMapper mapper = new ModelMapper();
+    Student student = mapper.map(studentForm, Student.class);
+    return student;
+//    return new Student(
+//            studentForm.getName(),
+//            SubjectConverter.subjectFormToEntity(studentForm.getSubjects())
+//    );
   }
 
   public static List<Student> studentFormToEntity(List<StudentForm> studentForms) {
@@ -27,10 +31,14 @@ public class StudentConverter {
   }
 
   public static StudentDTO studentEntityToDTO(Student student) {
-    return new StudentDTO(
-            student.getName(),
-            SubjectConverter.subjectEntityToDTO(student.getSubjects())
-    );
+    ModelMapper mapper = new ModelMapper();
+    StudentDTO studentDTO = mapper.map(student, StudentDTO.class);
+    return studentDTO;
+//    return new StudentDTO(
+//            student.getId(),
+//            student.getName(),
+//            SubjectConverter.subjectEntityToDTO(student.getSubjects())
+//    );
   }
 
   public static List<StudentDTO> studentEntityToDTO(List<Student> students) {
