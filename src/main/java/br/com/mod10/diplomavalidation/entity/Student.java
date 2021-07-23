@@ -1,21 +1,19 @@
 package br.com.mod10.diplomavalidation.entity;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "student")
+@Document(collection = "Student")
 public class Student {
+
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
+
   private String name;
-  @OneToMany(
-          cascade = CascadeType.ALL,
-          orphanRemoval = true
-  )
-  @JoinColumn(name = "student_id")
+
   private List<Subject> subjects = new ArrayList<>();
 
   public Student() {
@@ -26,7 +24,7 @@ public class Student {
     this.subjects = subjects;
   }
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -38,7 +36,7 @@ public class Student {
     return subjects;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

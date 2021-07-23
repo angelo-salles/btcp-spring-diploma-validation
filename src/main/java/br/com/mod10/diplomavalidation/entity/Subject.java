@@ -1,14 +1,13 @@
 package br.com.mod10.diplomavalidation.entity;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
 
-@Entity
-@Table(name = "subject")
 public class Subject {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
+
   private String subject;
+
   private Integer note;
 
   public Subject() {
@@ -19,7 +18,7 @@ public class Subject {
     this.note = note;
   }
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -31,7 +30,7 @@ public class Subject {
     return note;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

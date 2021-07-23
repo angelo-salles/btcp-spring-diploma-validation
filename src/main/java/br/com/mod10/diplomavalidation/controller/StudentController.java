@@ -27,7 +27,7 @@ public class StudentController {
   }
 
   @PostMapping("/analyzeNotes/{id}")
-  public ResponseEntity<?> analyzeNotes(@PathVariable long id) {
+  public ResponseEntity<?> analyzeNotes(@PathVariable String id) {
     return ResponseEntity.ok().body(studentService.degree(id));
   }
 
@@ -44,7 +44,7 @@ public class StudentController {
   }
 
   @GetMapping("/student/{id}")
-  public ResponseEntity<?> getStudentById(@PathVariable long id) {
+  public ResponseEntity<?> getStudentById(@PathVariable String id) {
     return ResponseEntity.ok(this.studentService.findById(id));
   }
 }

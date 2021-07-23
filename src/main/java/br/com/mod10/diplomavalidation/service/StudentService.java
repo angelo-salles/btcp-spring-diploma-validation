@@ -35,7 +35,7 @@ public class StudentService {
     this.studentRepository = studentRepository;
   }
 
-  public DegreeDTO degree(long id) {
+  public DegreeDTO degree(String id) {
     StudentDTO student = findById(id);
     double average = CalculateAverage.calcAverage(student.getSubjects());
     String message = StudentSituation.status(average);
@@ -57,7 +57,7 @@ public class StudentService {
     return StudentConverter.studentEntityToDTO(students);
   }
 
-  public StudentDTO findById(long id) {
+  public StudentDTO findById(String id) {
     Optional<Student> student = this.studentRepository.findById(id);
 
     if(student.isPresent()) {

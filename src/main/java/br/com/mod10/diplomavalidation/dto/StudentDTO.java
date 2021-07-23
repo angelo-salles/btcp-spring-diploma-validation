@@ -3,7 +3,7 @@ package br.com.mod10.diplomavalidation.dto;
 import java.util.List;
 
 public class StudentDTO {
-  private Long id;
+  private String id;
   private String name;
   private List<SubjectDTO> subjects;
 
@@ -11,12 +11,12 @@ public class StudentDTO {
   public StudentDTO() {
   }
 
-  public StudentDTO(Long id, String name, List<SubjectDTO> subjects) {
+  public StudentDTO(String id, String name, List<SubjectDTO> subjects) {
     this.name = name;
     this.subjects = subjects;
   }
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -28,7 +28,7 @@ public class StudentDTO {
     return subjects;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
